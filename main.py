@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import numpy as np
 import PIL
 import tensorflow as tf
@@ -8,9 +9,10 @@ from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
 
 import pathlib
-dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
-data_dir = tf.keras.utils.get_file('flower_photos', origin=dataset_url, untar=True)
-data_dir = pathlib.Path(data_dir)
+# dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
+# data_dir = tf.keras.utils.get_file('flower_photos', origin=dataset_url, untar=True)
+# data_dir = pathlib.Path(data_dir)
+data_dir = pathlib.Path('Images')
 
 image_count = len(list(data_dir.glob('*/*.jpg')))
 print(image_count)
@@ -21,7 +23,7 @@ img_width = 180
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
   data_dir,
-  validation_split=0.2,
+  validation_split=0.5,
   subset="training",
   seed=123,
   image_size=(img_height, img_width),
@@ -29,7 +31,7 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
 
 val_ds = tf.keras.utils.image_dataset_from_directory(
   data_dir,
-  validation_split=0.2,
+  validation_split=0.5,
   subset="validation",
   seed=123,
   image_size=(img_height, img_width),
@@ -38,13 +40,13 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
 class_names = train_ds.class_names
 print(class_names)
 
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-  for i in range(9):
-    ax = plt.subplot(3, 3, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
+# plt.figure(figsize=(10, 10))
+# for images, labels in train_ds.take(1):
+#   for i in range(9):
+#     ax = plt.subplot(3, 3, i + 1)
+#     plt.imshow(images[i].numpy().astype("uint8"))
+#     plt.title(class_names[labels[i]])
+#     plt.axis("off")
 
 AUTOTUNE = tf.data.AUTOTUNE
 
@@ -167,6 +169,7 @@ if input1 == 'y':
 sunflower_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg"
 sunflower_path = tf.keras.utils.get_file('Red_sunflower', origin=sunflower_url)
 
+image = mpimg.imread(sunflower_path)
 img = tf.keras.utils.load_img(
     sunflower_path, target_size=(img_height, img_width)
 )
@@ -180,3 +183,6 @@ print(
     "This image most likely belongs to {} with a {:.2f} percent confidence."
     .format(class_names[np.argmax(score)], 100 * np.max(score))
 )
+
+imgplot = plt.imshow(image)
+plt.show()
