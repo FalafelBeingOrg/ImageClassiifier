@@ -168,22 +168,25 @@ if input1 == 'y':
 
 # sunflower_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg"
 # sunflower_path = tf.keras.utils.get_file('Red_sunflower', origin=sunflower_url)
-smash_path = pathlib.Path('smash.png')
+print('do you wanna make the boyo smash or pass (y/n)')
+input1 = input()
+if input1 == 'y':
+    smash_path = pathlib.Path('smash.png')
 
-image = mpimg.imread(smash_path)
-img = tf.keras.utils.load_img(
-    smash_path, target_size=(img_height, img_width)
-)
-img_array = tf.keras.utils.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0) # Create a batch
+    image = mpimg.imread(smash_path)
+    img = tf.keras.utils.load_img(
+        smash_path, target_size=(img_height, img_width)
+    )
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
 
-predictions = model.predict(img_array)
-score = tf.nn.softmax(predictions[0])
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
 
-print(
-    "This image most likely belongs to {} with a {:.2f} percent confidence."
-    .format(class_names[np.argmax(score)], 100 * np.max(score))
-)
+    print(
+        "This image most likely belongs to {} with a {:.2f} percent confidence."
+        .format(class_names[np.argmax(score)], 100 * np.max(score))
+    )
 
-imgplot = plt.imshow(image)
-plt.show()
+    imgplot = plt.imshow(image)
+    plt.show()
