@@ -171,7 +171,7 @@ if input1 == 'y':
 print('do you wanna make the boyo smash or pass (y/n)')
 input1 = input()
 if input1 == 'y':
-    smash_path = pathlib.Path('smash.png')
+    smash_path = pathlib.Path('smash.jpg')
 
     image = mpimg.imread(smash_path)
     img = tf.keras.utils.load_img(
